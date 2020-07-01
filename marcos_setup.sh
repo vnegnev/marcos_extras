@@ -11,7 +11,10 @@ fi
 echo "Setting up MaRCoS on IP $1..."
 
 echo "Setting date on the STEMlab based on the host date..."
-ssh root@$1 "date -s \"$(date)\""
+ssh root@$1 "date -s \"$(LC_TIME=POSIX date)\""
+
+echo "Killing any existing server instances..."
+ssh root@$1 "killall marcos_server"
 
 echo "Copying FPGA bitstream..."
 scp ocra_mri.bit.bin ocra_mri.dtbo root@$1:/lib/firmware/
@@ -46,7 +49,7 @@ cd build
 cmake ../src
 make -j2
 cp marcos_server ~/
-rm -rf /tmp/marcos_server
+# rm -rf /tmp/marcos_server
 EOF
 
 echo "You can run the MaRCoS server by entering the following command:"
