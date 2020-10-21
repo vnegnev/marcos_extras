@@ -2,18 +2,21 @@
 # Vlad Negnevitsky, May 2020
 # Rudimentary setup procedure for the STEMlab
 
-if test "$#" -ne 1; then
-    echo "Usage: ./marcos_setup.sh 192.168.1.163"
-    echo "(the IP address is that of your STEMlab)"
+if [[ "$#" -ne 2 || ($2 != "rp-125" && $2 != "rp-122" ) ]]; then
+    echo "Usage: ./marcos_setup.sh IP DEVICE"
+    echo "IP: the IP address of your STEMlab/RP"
+    echo "DEVICE: your STEMlab/RP hardware, either rp-122 or rp-125"
+    echo "Example usage: "
+    echo "   ./marcos_setup.sh 192.168.1.163 rp-122"
     exit
 fi
 
 echo "Setting up MaRCoS on IP $1..."
 
 echo "Setting date on the STEMlab based on the host date..."
-ssh root@$1 "date -s \"$(LC_TIME=POSIX date)\""
+ssh root@$1 "date -s \"$(date -u)\""
 
-./copy_bitstream.sh $1
+./copy_bitstream.sh $1 $2
 
 echo "Killing any existing server instances..."
 ssh root@$1 "killall marcos_server"
@@ -32,6 +35,11 @@ mkdir build
 cd build
 cmake ../src
 make -j2
+
+# Either copy the server binary to ~/ or just make a symlink.
+# Symlinks are best for development/debugging, since it forces
+# recompilation of the latest version every time the RP is rebooted.
+ln -s marcos_server ~/
 # cp marcos_server ~/
 # rm -rf /tmp/marcos_server
 EOF
