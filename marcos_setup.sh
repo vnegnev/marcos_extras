@@ -39,10 +39,13 @@ make -j2
 # Either copy the server binary to ~/ or just make a symlink.
 # Symlinks are best for development/debugging, since it forces
 # recompilation of the latest version every time the RP is rebooted.
+# Copying is best for experimental use, since it's persistent across
+# reboots.
+# 
 # cd ~/
 # ln -s /tmp/marcos_server/build/marcos_server
 cp marcos_server ~/
-rm -rf /tmp/marcos_server
+# rm -rf /tmp/marcos_server
 EOF
 
 echo "You can run the MaRCoS server by entering the following command:"

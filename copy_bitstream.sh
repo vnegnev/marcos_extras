@@ -16,7 +16,7 @@ echo "Copying FPGA bitstream..."
 # Decide whether the target is running the Ocra Linux image, or the
 # standard Red Pitaya one
 rp_uname=$(ssh root@$1 "uname -n")
-if [[ rp_uname == "redpitaya" ]]; then
+if [[ $rp_uname == "redpitaya" ]]; then
 
     scp ocra_mri_$2.bit.bin root@$1:/lib/firmware/ocra_mri.bit.bin
     scp ocra_mri.dtbo root@$1:/lib/firmware/
