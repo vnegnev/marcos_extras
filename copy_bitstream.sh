@@ -19,7 +19,7 @@ rp_uname=$(ssh root@$1 "uname -n")
 if [[ $rp_uname == "redpitaya" ]]; then
 
     scp ocra_mri_$2.bit.bin root@$1:/lib/firmware/ocra_mri.bit.bin
-    scp ocra_mri.dtbo root@$1:/lib/firmware/
+    scp ocra_mri_$2.dtbo root@$1:/lib/firmware/
 
     echo "Writing bitstream to FPGA, ocra Linux image"
     echo "(you should see a blue light appear) ..."
