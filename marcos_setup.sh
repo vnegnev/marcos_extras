@@ -23,7 +23,7 @@ ssh root@$1 "killall marcos_server"
 
 echo "Copying MaRCoS server..."
 # borrowed trick of avoiding .git folder from https://stackoverflow.com/questions/11557114/cp-r-without-hidden-files
-git clone --depth=1 -b devel https://github.com/vnegnev/marcos_server.git /tmp/marcos_server
+git clone --depth=1 -b vn/scratch https://github.com/vnegnev/marcos_server.git /tmp/marcos_server
 ssh root@$1 "mkdir /tmp/marcos_server"
 scp -r /tmp/marcos_server/* root@$1:/tmp/marcos_server
 rm -rf /tmp/marcos_server # remove local copy
