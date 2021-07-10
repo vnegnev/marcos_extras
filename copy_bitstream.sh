@@ -19,8 +19,8 @@ echo "Copying FPGA bitstream..."
 rp_uname=$(ssh root@$1 "uname -n")
 if [[ $rp_uname == "redpitaya" ]]; then
 
-    scp ocra_mri_$2.bit.bin root@$1:/lib/firmware/ocra_mri.bit.bin
-    scp ocra_mri_$2.dtbo root@$1:/lib/firmware/ocra_mri.dtbo
+    scp marcos_fpga_$2.bit.bin root@$1:/lib/firmware/marcos_fpga.bit.bin
+    scp marcos_fpga_$2.dtbo root@$1:/lib/firmware/marcos_fpga.dtbo
 
     echo "Writing bitstream to FPGA, ocra Linux image"
     echo "(you should see a blue light appear) ..."
@@ -35,7 +35,7 @@ fi
 echo 0 > /sys/class/fpga_manager/fpga0/flags
 
 mkdir /sys/kernel/config/device-tree/overlays/full
-echo -n "ocra_mri.dtbo" > /sys/kernel/config/device-tree/overlays/full/path
+echo -n "marcos_fpga.dtbo" > /sys/kernel/config/device-tree/overlays/full/path
 EOF
 
 else
@@ -43,10 +43,10 @@ else
     echo "Writing bitstream to FPGA, standard Red Pitaya Linux image"
     echo "(you should see a blue light appear) ..."
 
-    scp ocra_mri_$2.bit root@$1:/tmp/ocra_mri.bit
+    scp marcos_fpga_$2.bit root@$1:/tmp/marcos_fpga.bit
     ssh root@$1 <<EOF
-cat /tmp/ocra_mri.bit > /dev/xdevcfg
-rm /tmp/ocra_mri.bit
+cat /tmp/marcos_fpga.bit > /dev/xdevcfg
+rm /tmp/marcos_fpga.bit
 EOF
 
 fi
