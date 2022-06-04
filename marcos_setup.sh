@@ -8,7 +8,7 @@ if [[ "$#" -ne 2 || ($2 != "rp-125" && $2 != "rp-122" ) ]]; then
     echo "DEVICE: your STEMlab/RP hardware, either rp-122 or rp-125"
     echo "Example usage: "
     echo "   ./marcos_setup.sh 192.168.1.163 rp-122"
-    echo "*Warning*: flocra bitstream currently only runs on rp-122 for now!"    
+    echo "*Warning*: flocra bitstream currently only runs on rp-122 for now!"
     exit
 fi
 
@@ -26,7 +26,7 @@ echo "Copying MaRCoS server..."
 # borrowed trick of avoiding .git folder from https://stackoverflow.com/questions/11557114/cp-r-without-hidden-files
 git clone --depth=1 -b flocra https://github.com/vnegnev/marcos_server.git /tmp/marcos_server
 ssh root@$1 "mkdir /tmp/marcos_server"
-scp -r /tmp/marcos_server/* root@$1:/tmp/marcos_server
+scp -O -r /tmp/marcos_server/* root@$1:/tmp/marcos_server
 rm -rf /tmp/marcos_server # remove local copy
 
 echo "Compiling MaRCoS server on the STEMlab..."
@@ -42,7 +42,7 @@ make -j2
 # recompilation of the latest version every time the RP is rebooted.
 # Copying is best for experimental use, since it's persistent across
 # reboots.
-# 
+#
 # cd ~/
 # ln -s /tmp/marcos_server/build/marcos_server
 cp marcos_server ~/
