@@ -8,14 +8,14 @@ if [[ "$#" -ne 2 || ($2 != "rp-125" && $2 != "rp-122" ) ]]; then
     echo "DEVICE: your STEMlab/RP hardware, either rp-122 or rp-125"
     echo "Example usage: "
     echo "   ./marcos_setup.sh 192.168.1.163 rp-122"
-    echo "*Warning*: flocra bitstream currently only runs on rp-122 for now!"
+    echo "*Warning*: MaRCoS bitstream currently only runs on rp-122 for now!"
     exit
 fi
 
 echo "Setting up MaRCoS on IP $1..."
 
 echo "Setting date on the STEMlab based on the host date..."
-ssh root@$1 "date -s \"$(date -u)\""
+ssh root@$1 "date -Ins -s \"$(date -Ins -u)\""
 
 ./copy_bitstream.sh $1 $2
 
