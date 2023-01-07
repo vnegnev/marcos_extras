@@ -15,7 +15,7 @@ fi
 echo "Setting up MaRCoS on IP $1..."
 
 echo "Setting date on the SDRLab based on the host date..."
-ssh root@$1 "date -s \"$(date -u)\""
+ssh root@$1 "date -Ins -s \"$(date -Ins -u)\""
 
 ./copy_bitstream.sh $1 $2
 
