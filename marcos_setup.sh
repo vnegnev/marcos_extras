@@ -12,6 +12,20 @@ if [[ "$#" -ne 2 || ($2 != "rp-125" && $2 != "rp-122" ) ]]; then
     exit
 fi
 
+# Decide which scp command to use (depending on host + SDRLab's OpenSSH versions)
+scp readme.org root@$1:/tmp/readme.org >/dev/null 2>/dev/null
+if [ "$?" -ne "0" ]; then
+    scp_="scp -O"
+else
+    scp_="scp"
+fi
+# check the command runs
+$scp_ readme.org root@$1:/tmp/readme.org >/dev/null 2>/dev/null
+if [ "$?" -ne "0" ]; then
+    echo "SCP command does not run; please investigate manually."
+    exit 1
+fi
+
 echo "Setting up MaRCoS on IP $1..."
 
 echo "Setting date on the SDRLab based on the host date..."
@@ -26,7 +40,7 @@ echo "Copying MaRCoS server..."
 # borrowed trick of avoiding .git folder from https://stackoverflow.com/questions/11557114/cp-r-without-hidden-files
 git clone --depth=1 https://github.com/vnegnev/marcos_server.git /tmp/marcos_server
 ssh root@$1 "mkdir /tmp/marcos_server"
-scp -O -r /tmp/marcos_server/* root@$1:/tmp/marcos_server
+$scp_ -r /tmp/marcos_server/* root@$1:/tmp/marcos_server
 rm -rf /tmp/marcos_server # remove local copy
 
 echo "Compiling MaRCoS server on the SDRLab..."
