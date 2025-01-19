@@ -16,6 +16,7 @@
 #
 
 echo "all:{ marcos_fpga_rp-122.bit}" > marcos_fpga.bif
-mv ~/Documents/mri/marcos_fpga/hdl/tmp/marcos_fpga.runs/impl_1/system_wrapper.bit ./marcos_fpga_rp-122.bit
+# mv ~/Documents/mri/marcos_fpga/hdl/tmp/marcos_fpga.runs/impl_1/system_wrapper.bit ./marcos_fpga_rp-122.bit
+mv ~/Documents/mri/marcos_fpga/hdl/tmp/marcos_fpga.bit ./marcos_fpga_rp-122.bit
 bootgen -image marcos_fpga.bif -arch zynq -process_bitstream bin -w
 rm marcos_fpga.bif
